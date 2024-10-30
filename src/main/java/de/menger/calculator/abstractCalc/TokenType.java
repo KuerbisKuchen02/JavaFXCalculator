@@ -1,4 +1,4 @@
-package de.menger.calculator.calc;
+package de.menger.calculator.abstractCalc;
 
 public enum TokenType {
     EOF,

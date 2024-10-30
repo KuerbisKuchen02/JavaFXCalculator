@@ -1,12 +1,12 @@
 package de.menger.calculator.basicCalc;
 
-import de.menger.calculator.calc.Lexer;
-import de.menger.calculator.calc.Token;
-import de.menger.calculator.calc.TokenType;
+import de.menger.calculator.abstractCalc.Lexer;
+import de.menger.calculator.abstractCalc.Token;
+import de.menger.calculator.abstractCalc.TokenType;
 
-public class ExpressionLexer extends Lexer {
+public class BasicLexer extends Lexer {
 
-    public ExpressionLexer(String expression) {
+    public BasicLexer(String expression) {
         super(expression);
     }
 
@@ -15,7 +15,6 @@ public class ExpressionLexer extends Lexer {
         while (c != EOF) {
             switch (c) {
                 case ' ','\t','\n','\r' -> WS();
-
                 case '+', '-', '*', '/', '^' -> {
                     String operator = String.valueOf(c);
                     consume();
@@ -50,7 +49,7 @@ public class ExpressionLexer extends Lexer {
         do {
             buf.append(c);
             consume();
-        } while (Character.isDigit(c));
+        } while (Character.isDigit(c) || c == '.');
         return new Token(TokenType.OPERANT, buf.toString());
     }
 }
