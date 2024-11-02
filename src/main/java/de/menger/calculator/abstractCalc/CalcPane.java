@@ -80,9 +80,9 @@ public abstract class CalcPane extends VBox {
             } else if (result.isNaN()) {
                 workingField.setText("NaN");
             } else {
-                Double out = truncate(result);
-                if (out.longValue() == out) {
-                    String t = Long.toString(out.longValue());
+                double out = truncate(result);
+                if ((long) out == out) {
+                    String t = Long.toString((long) out);
                     workingField.setText(t);
                 } else {
                     workingField.setText(Double.toString(out));
@@ -144,7 +144,7 @@ public abstract class CalcPane extends VBox {
         }
         switch (event.getText()) {
             case "=" -> calculate();
-            case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "^" -> {
+            case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "^", "." -> {
                 historyField.clear();
                 editWorkingField(event.getText());
             }
@@ -156,6 +156,7 @@ public abstract class CalcPane extends VBox {
             case "<" -> button.setOnAction(event -> handleBackSpace());
             case "C" -> button.setOnAction(event -> clear());
             case "=" -> button.setOnAction(e -> calculate());
+            case "M" -> button.setOnAction(e -> System.out.println("Not Implemented"));
             default -> button.setOnAction(e -> {
                 historyField.clear();
                 Button b = (Button) e.getSource();
