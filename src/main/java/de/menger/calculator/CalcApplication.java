@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class CalcApplication extends Application {
 
     @Override
@@ -15,8 +17,10 @@ public class CalcApplication extends Application {
         stage.setResizable(false);
 
         CalcPane calc = new BasicCalcPane();
-        stage.setScene(new Scene(calc));
-
+        Scene scene = new Scene(calc);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
+        scene.setOnKeyPressed(calc::handleOnKeyPressed);
+        stage.setScene(scene);
         stage.show();
         stage.requestFocus();
 
