@@ -23,7 +23,6 @@ public class CalcApplication extends Application {
         stage.setScene(scene);
         stage.show();
         stage.requestFocus();
-
     }
 
     public static void main(String[] args) {

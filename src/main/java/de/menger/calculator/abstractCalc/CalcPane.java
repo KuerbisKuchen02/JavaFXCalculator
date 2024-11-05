@@ -1,11 +1,14 @@
 package de.menger.calculator.abstractCalc;
 
+import de.menger.calculator.mathEditor.Converter;
+import de.menger.calculator.mathEditor.MathEditor;
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -13,28 +16,20 @@ import java.util.ArrayList;
 
 public abstract class CalcPane extends VBox {
 
-    protected StringBuilder expression;
     protected Calc calc;
 
     protected Button[] buttons;
-    protected TextField workingField;
-    protected TextField historyField;
+    protected MathEditor workingField;
+    protected MathEditor historyField;
 
     public CalcPane(String[][] buttonTexts) {
         super();
-        this.historyField = new TextField();
-        this.historyField.getStyleClass().add("history-field");
-        historyField.setEditable(false);
-        historyField.setOnMouseClicked(event -> {
-            String temp = historyField.getText();
-            clear();
-            this.expression.append(temp);
-            workingField.setText(temp);
-        });
 
-        this.workingField = new TextField();
+        this.historyField = new MathEditor(20, Color.web("#9F9EA0"));
+        this.historyField.getStyleClass().add("history-field");
+        historyField.setOnMouseClicked(this::handleHistoryClick);
+        this.workingField = new MathEditor(30, Color.WHITE);
         this.workingField.getStyleClass().add("working-field");
-        workingField.setEditable(false);
 
         GridPane grid = new GridPane();
         grid.getStyleClass().add("button-grid");
@@ -49,6 +44,9 @@ public abstract class CalcPane extends VBox {
                 setButtonListeners(button);
                 buttonList.add(button);
                 grid.add(button, j, i);
+                if (buttonTexts[i][j].matches("[⌫M]")) {
+                    button.getStyleClass().add("small_font");
+                }
                 if (i == 0) {
                     button.getStyleClass().add("top-button");
                 }
@@ -60,35 +58,6 @@ public abstract class CalcPane extends VBox {
 
         this.buttons = buttonList.toArray(new Button[0]);
         clear();
-    }
-
-    public void calculate() {
-        if (expression.length() < 3) {
-            return;
-        }
-        Double result = null;
-        try {
-            result = calc.eval(expression.toString());
-        } catch (IllegalArgumentException ex) {
-            workingField.setText("Error");
-        }
-        historyField.setText(expression.toString());
-        expression = new StringBuilder();
-        if (result != null) {
-            if (result.isInfinite()) {
-                workingField.setText("Inf");
-            } else if (result.isNaN()) {
-                workingField.setText("NaN");
-            } else {
-                double out = truncate(result);
-                if ((long) out == out) {
-                    String t = Long.toString((long) out);
-                    workingField.setText(t);
-                } else {
-                    workingField.setText(Double.toString(out));
-                }
-            }
-        }
     }
 
     public static double truncate(double value) {
@@ -110,30 +79,58 @@ public abstract class CalcPane extends VBox {
         return b.doubleValue();
     }
 
+    public void calculate() {
+        if (workingField.length() < 2) {
+            return;
+        }
+        Double result = null;
+        try {
+            result = calc.eval(workingField.getText());
+        } catch (IllegalArgumentException ex) {
+            workingField.clear();
+            workingField.setText("Error");
+        }
+        historyField.setText(workingField);
+        if (result != null) {
+            if (result.isInfinite()) {
+                workingField.setText("Inf");
+            } else if (result.isNaN()) {
+                workingField.setText("NaN");
+            } else {
+                double out = truncate(result);
+                if ((long) out == out) {
+                    String t = Long.toString((long) out);
+                    workingField.setText(t);
+                } else {
+                    workingField.setText(Double.toString(out));
+                }
+            }
+        }
+    }
+
     public void clear() {
-        expression = new StringBuilder();
         workingField.setText("0");
         historyField.clear();
     }
 
-    private  void handleBackSpace() {
+    private void handleHistoryClick(Event event) {
+        if (historyField.isEmpty()) return;
+        workingField.setText(historyField);
         historyField.clear();
-        if (expression.length() == 1) {
-            clear();
-        } else if (!expression.isEmpty()) {
-            expression.deleteCharAt(expression.length() - 1);
-            workingField.setText(expression.toString());
-        }
+    }
+
+    private void handleBackSpace() {
+        historyField.clear();
+        workingField.removeLast();
     }
 
     private void editWorkingField(String text) {
-        if (expression.isEmpty() && text.equals(".")) {
-            expression.append(0);
-        } else if (expression.isEmpty() && !text.matches("[0-9]")) {
-            expression.append(workingField.getText());
+        text = Converter.convertUnicodeToAsci(text);
+        if (workingField.getText().equals("0") && text.matches("[0-9]")) {
+            workingField.setText(text);
+        } else {
+            workingField.addText(text);
         }
-        expression.append(text);
-        workingField.setText(expression.toString());
     }
 
     public void handleOnKeyPressed(KeyEvent event) {
@@ -153,7 +150,7 @@ public abstract class CalcPane extends VBox {
 
     protected void setButtonListeners(Button button) {
         switch (button.getText()) {
-            case "<" -> button.setOnAction(event -> handleBackSpace());
+            case "⌫" -> button.setOnAction(event -> handleBackSpace());
             case "C" -> button.setOnAction(event -> clear());
             case "=" -> button.setOnAction(e -> calculate());
             case "M" -> button.setOnAction(e -> System.out.println("Not Implemented"));

@@ -2,22 +2,17 @@
     -fx-background-color: #2B272F;
 }
 
-.text-field {
-    -fx-background-color: transparent;
+.history-field, .working-field {
     -fx-pref-width: 100%;
-    -fx-alignment: center-right;
-    -fx-padding: 0 10px 0 0;
 }
 
 .history-field {
-    -fx-text-fill: #9F9EA0;
-    -fx-font-size: 20px;
-    -fx-padding: 10px 10px 0 0;
+    -fx-padding: 30px 10px 0 0;
+    -fx-min-height: 25px;
 }
 
 .working-field {
-    -fx-text-fill: white;
-    -fx-font-size: 30px;
+    -fx-padding: 10px 10px 0 0;
 }
 
 .button-grid {
@@ -31,9 +26,14 @@
     -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-pref-width: 2em;
-    -fx-pref-height: 2em;
-    -fx-background-radius: 1em;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 20px;
+    -fx-text-overrun: clip;
+}
+
+.small_font {
+    -fx-font-size: 17px;
 }
 
 .top-button {

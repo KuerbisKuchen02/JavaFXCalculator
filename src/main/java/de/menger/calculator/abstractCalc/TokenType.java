@@ -4,6 +4,8 @@ public enum TokenType {
     EOF,
     OPERANT,
     OPERATOR,
+    FUNCTION,
+    CONSTANT,
     LBRACK,
     RBRACK
 }

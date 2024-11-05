@@ -12,7 +12,7 @@ public abstract class Parser {
 		consume();
 	}
 
-	public ArrayList<Token> shuttingYard() {
+	public ArrayList<Token> shuntingYard() {
 		Stack<Token> stack = new Stack<>();
 		ArrayList<Token> postFixExp = new ArrayList<>();
 		while (lookahead.getType() != TokenType.EOF) {

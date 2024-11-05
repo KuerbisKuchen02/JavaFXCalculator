@@ -11,7 +11,7 @@ public abstract class Calc {
     public abstract double eval(String expression);
 
     protected double eval() {
-        ArrayList<Token> postfix = parser.shuttingYard();
+        ArrayList<Token> postfix = parser.shuntingYard();
 
         Stack<Double> stack = new Stack<>();
         for (Token t : postfix) {
