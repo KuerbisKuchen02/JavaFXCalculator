@@ -15,28 +15,36 @@ public class BasicLexer extends Lexer {
         while (c != EOF) {
             switch (c) {
                 case ' ','\t','\n','\r' -> WS();
-                case '+', '-', '*', '/', '^' -> {
-                    String operator = String.valueOf(c);
-                    consume();
-                    return new Token(TokenType.OPERATOR, operator);
-                }
-                case '(' -> {
-                    consume();
-                    return new Token(TokenType.LBRACK, "(");
-                }
-                case ')' -> {
-                    consume();
-                    return new Token(TokenType.RBRACK, ")");
-                }
                 default -> {
-                    if (Character.isDigit(c)) {
-                        return OPERANT();
-                    }
-                    throw new RuntimeException("Invalid char: " + c);
+                    return _nextToken(c);
                 }
             }
         }
         return new Token(TokenType.EOF, "<EOF>");
+    }
+
+    protected Token _nextToken(char c) {
+        switch (c) {
+            case '+', '-', '*', '/', '^', '%' -> {
+                String operator = String.valueOf(c);
+                consume();
+                return new Token(TokenType.OPERATOR, operator);
+            }
+            case '(' -> {
+                consume();
+                return new Token(TokenType.LBRACK, "(");
+            }
+            case ')' -> {
+                consume();
+                return new Token(TokenType.RBRACK, ")");
+            }
+            default -> {
+                if (Character.isDigit(c)) {
+                    return OPERANT();
+                }
+                throw new RuntimeException("Invalid char: " + c);
+            }
+        }
     }
 
     private void WS() {

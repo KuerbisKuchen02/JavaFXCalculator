@@ -17,16 +17,25 @@ public abstract class Calc {
         for (Token t : postfix) {
             switch (t.getType()) {
                 case OPERANT -> stack.push(Double.parseDouble(t.getValue()));
+                case CONSTANT -> stack.push(calc(t.getValue(), null, null));
                 case OPERATOR -> {
                     double op1, op2;
                     try {
                         op2 = stack.pop();
                         op1 = stack.pop();
-                    }
-                    catch (EmptyStackException e) {
+                    } catch (EmptyStackException e) {
                         throw new IllegalArgumentException("Expression is not valid");
                     }
-                    stack.push(calc(t.getValue().charAt(0), op1, op2));
+                    stack.push(calc(t.getValue(), op1, op2));
+                }
+                case FUNCTION -> {
+                    double op1;
+                    try {
+                        op1 = stack.pop();
+                    } catch (EmptyStackException e) {
+                        throw new IllegalArgumentException("Expression is not valid");
+                    }
+                    stack.push(calc(t.getValue(), op1, null));
                 }
             }
         }
@@ -35,5 +44,5 @@ public abstract class Calc {
         return result;
     }
 
-    protected abstract double calc(char op, double op1, double op2);
+    protected abstract double calc(String op, Double op1, Double op2);
 }

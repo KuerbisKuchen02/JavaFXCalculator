@@ -11,22 +11,22 @@ public class BasicCalc extends Calc {
     }
 
     @Override
-    protected double calc(char operator, double operand1, double operand2) {
+    protected double calc(String operator, Double operand1, Double operand2) {
         switch (operator) {
-            case '+' -> {
+            case "+" -> {
                 return operand1 + operand2;
             }
-            case '-' -> {
+            case "-" -> {
                 return operand1 - operand2;
             }
-            case '*' -> {
+            case "*" -> {
                 return operand1 * operand2;
             }
-            case '/' -> {
+            case "/" -> {
                 return operand1 / operand2;
             }
-            case '^' -> {
-                return (int) Math.pow(operand1, operand2);
+            case "^" -> {
+                return Math.pow(operand1, operand2);
             }
             default -> throw new RuntimeException("Unsupported operator: " + operator);
         }

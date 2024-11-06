@@ -19,6 +19,12 @@ public abstract class Parser {
 			if (lookahead.getType() == TokenType.OPERANT) {
 				postFixExp.add(lookahead);
 				match(TokenType.OPERANT);
+			} else if (lookahead.getType() == TokenType.CONSTANT) {
+				postFixExp.add(lookahead);
+				match(TokenType.CONSTANT);
+			} else if (lookahead.getType() == TokenType.FUNCTION) {
+					stack.push(lookahead);
+					match(TokenType.FUNCTION);
 			} else if (lookahead.getType() == TokenType.OPERATOR) {
 				while (!stack.isEmpty() && stack.peek().getType() != TokenType.LBRACK &&
 						(getPrecedence(stack.peek()) > getPrecedence(lookahead)
@@ -39,6 +45,9 @@ public abstract class Parser {
 				assert stack.peek().getType() == TokenType.LBRACK;
 				stack.pop();
 				match(TokenType.RBRACK);
+				if (stack.peek().getType() == TokenType.FUNCTION) {
+					postFixExp.add(stack.pop());
+				}
 			}
 		}
 		while (!stack.isEmpty()) {
@@ -47,6 +56,7 @@ public abstract class Parser {
 			postFixExp.add(stack.pop());
 		}
 		match(TokenType.EOF);
+		System.out.println(postFixExp);
 		return postFixExp;
 	}
 

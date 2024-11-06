@@ -80,7 +80,7 @@ public abstract class CalcPane extends VBox {
     }
 
     public void calculate() {
-        if (workingField.length() < 2) {
+        if (workingField.isEmpty()) {
             return;
         }
         Double result = null;
@@ -126,7 +126,7 @@ public abstract class CalcPane extends VBox {
 
     private void editWorkingField(String text) {
         text = Converter.convertUnicodeToAsci(text);
-        if (workingField.getText().equals("0") && text.matches("[0-9]")) {
+        if (workingField.getText().equals("0") && !text.matches("[-+*/!%]")) {
             workingField.setText(text);
         } else {
             workingField.addText(text);
