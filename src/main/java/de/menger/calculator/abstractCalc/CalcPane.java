@@ -41,17 +41,21 @@ public abstract class CalcPane extends VBox {
         for (int i = 0; i < buttonTexts.length; i++) {
             for (int j = 0; j < buttonTexts[i].length; j++) {
                 Button button = new Button(buttonTexts[i][j]);
+                button.setPrefSize(40,40);
                 setButtonListeners(button);
                 buttonList.add(button);
                 grid.add(button, j, i);
                 if (buttonTexts[i][j].matches("[⌫M]")) {
                     button.getStyleClass().add("small_font");
                 }
-                if (i == 0) {
+                if (i == 0 && j >= buttonTexts[i].length - 4) {
                     button.getStyleClass().add("top-button");
                 }
                 if (j == buttonTexts[i].length - 1) {
                     button.getStyleClass().add("operator-button");
+                }
+                if (j < buttonTexts[i].length - 4) {
+                    button.getStyleClass().add("extra-button");
                 }
             }
         }

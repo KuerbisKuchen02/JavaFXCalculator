@@ -7,19 +7,24 @@ public class Converter {
 
     private static final HashMap<String, String> symbols = new HashMap<>(Map.ofEntries(
             Map.entry("*", "×"),
-            Map.entry("/", "÷")
+            Map.entry("/", "÷"),
+            Map.entry("root", "√"),
+            Map.entry("pi", "π")
     ));
 
     public static String convertUnicodeToAsci(String symbol) {
         for (Map.Entry<String, String> entry : symbols.entrySet()) {
-            if (entry.getValue().equals(symbol)) {
-                return entry.getKey();
-            }
+            symbol = symbol.replace(entry.getValue(), entry.getKey());
+
         }
         return symbol;
     }
 
     public static String convertAsciToUnicode(String symbol) {
-        return symbols.getOrDefault(symbol, symbol);
+        for (Map.Entry<String, String> entry : symbols.entrySet()) {
+            symbol = symbol.replace(entry.getKey(), entry.getValue());
+
+        }
+        return symbol;
     }
 }

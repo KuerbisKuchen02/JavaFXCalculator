@@ -7,12 +7,15 @@ public class AdvancedCalcPane extends CalcPane {
 
     public AdvancedCalcPane() {
         super(new String[][] {
-                {"(", ")", "%", "⌫", "C", "^", "÷"},
-                {"root", "e", "pi", "7", "8", "9", "×"},
-                {"ln", "ld", "log", "4", "5", "6", "-"},
-                {"sin", "cos", "tan", "1", "2", "3", "+"},
-                {"asin", "acos", "atan", "M", "0", ".", "="}
+                {"(", ")", "mc", "m+", "m-", "mr", "⌫", "C", "%", "÷"},
+                {"^2", "^3", "^", "e^", "10^", "2^", "7", "8", "9", "×"},
+                {"2√", "3√", "√", "ln", "lg", "log", "4", "5", "6", "-"},
+                {"x!", "sin", "cos", "tan", "e", "2log", "1", "2", "3", "+"},
+                {"Rad", "asin", "acos", "atan", "π", "Rand", "M", "0", ".", "="}
         });
+        for (Button button : buttons) {
+            button.setPrefWidth(50);
+        }
         this.calc = new AdvancedCalc();
     }
 

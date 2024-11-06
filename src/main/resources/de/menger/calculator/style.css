@@ -26,8 +26,6 @@
     -fx-text-fill: white;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-pref-width: 40px;
-    -fx-pref-height: 40px;
     -fx-background-radius: 20px;
     -fx-text-overrun: clip;
 }
@@ -42,4 +40,9 @@
 
 .operator-button {
     -fx-background-color: #FF9501;
+}
+
+.extra-button {
+    -fx-background-color: #443F48;
+    -fx-font-size: 13px;
 }
