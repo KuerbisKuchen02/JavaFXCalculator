@@ -28,6 +28,16 @@ public class AdvancedCalcPane extends CalcPane {
     @Override
     protected void setButtonListeners(Button button) {
         switch (button.getText()) {
+            case "^2", "^3" -> button.setOnAction(e -> {
+                historyField.clear();
+                editWorkingField("^");
+                editWorkingField(button.getText().substring(1));
+            });
+            case "e^", "10^", "2^" -> button.setOnAction(e -> {
+                historyField.clear();
+                editWorkingField(button.getText().substring(0, button.getText().length() - 1));
+                editWorkingField("^");
+            });
             case "Rand" -> button.setOnAction(e -> editWorkingField(String.valueOf(Math.random())));
             case "Rad" -> button.setOnAction(e -> {
                 if (button.getText().equals("Rad")) {
