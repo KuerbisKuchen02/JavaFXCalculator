@@ -4,6 +4,13 @@ import de.menger.calculator.basicCalc.BasicCalc;
 
 public class AdvancedCalc extends BasicCalc {
 
+    private boolean useDegrees;
+
+    public AdvancedCalc() {
+        super();
+        useDegrees = true;
+    }
+
     @Override
     public double eval(String expression) {
         this.parser = new AdvancedParser(new AdvancedLexer(expression));
@@ -26,22 +33,28 @@ public class AdvancedCalc extends BasicCalc {
                 return Math.pow(operand2, 1/operand1);
             }
             case "sin" -> {
-                return Math.sin(operand1);
+                double temp = useDegrees ? Math.toRadians(operand1) : operand1;
+                return Math.sin(temp);
             }
             case "cos" -> {
-                return Math.cos(operand1);
+                double temp = useDegrees ? Math.toRadians(operand1) : operand1;
+                return Math.cos(temp);
             }
             case "tan" -> {
-                return Math.tan(operand1);
+                double temp = useDegrees ? Math.toRadians(operand1) : operand1;
+                return Math.tan(temp);
             }
             case "asin" -> {
-                return Math.asin(operand1);
+                double temp = Math.asin(operand1);
+                return useDegrees ? Math.toDegrees(temp) : temp;
             }
             case "acos" -> {
-                return Math.acos(operand1);
+                double temp = Math.acos(operand1);
+                return useDegrees ? Math.toDegrees(temp) : temp;
             }
             case "atan" -> {
-                return Math.atan(operand1);
+                double temp = Math.atan(operand1);
+                return useDegrees ? Math.toDegrees(temp) : temp;
             }
             case "ln" -> {
                 return Math.log(operand1);
@@ -61,5 +74,9 @@ public class AdvancedCalc extends BasicCalc {
 
     private double factorial(double n) {
         return n <= 1 ? 1 : n*factorial(n-1);
+    }
+
+    public void setUseDegrees(boolean useDegrees) {
+        this.useDegrees = useDegrees;
     }
 }

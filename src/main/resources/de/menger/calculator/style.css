@@ -47,6 +47,10 @@
     -fx-font-size: 13px;
 }
 
+.active-button {
+    -fx-background-color: #A8A3AF;
+}
+
 .context-menu {
     -fx-font-size: 12px;
     -fx-background-color: #25232A;

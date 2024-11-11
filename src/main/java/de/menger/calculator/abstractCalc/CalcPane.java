@@ -122,18 +122,18 @@ public abstract class CalcPane extends VBox {
         historyField.clear();
     }
 
-    private void handleHistoryClick(Event event) {
+    protected void handleHistoryClick(Event event) {
         if (historyField.isEmpty()) return;
         workingField.setText(historyField);
         historyField.clear();
     }
 
-    private void handleBackSpace() {
+    protected void handleBackSpace() {
         historyField.clear();
         workingField.removeLast();
     }
 
-    private void editWorkingField(String text) {
+    protected void editWorkingField(String text) {
         text = Converter.convertUnicodeToAsci(text);
         if (workingField.getText().equals("0") && !text.matches("[-+*/!%]")) {
             workingField.setText(text);
@@ -156,8 +156,6 @@ public abstract class CalcPane extends VBox {
             }
         }
     }
-
-
 
     protected void setButtonListeners(Button button) {
         switch (button.getText()) {
