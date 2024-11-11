@@ -11,7 +11,12 @@ public abstract class Calc {
     public abstract double eval(String expression);
 
     protected double eval() {
-        ArrayList<Token> postfix = parser.shuntingYard();
+        ArrayList<Token> postfix;
+        try {
+            postfix = parser.shuntingYard();
+        } catch (EmptyStackException e) {
+            throw new IllegalArgumentException("Expression is not valid");
+        }
 
         Stack<Double> stack = new Stack<>();
         for (Token t : postfix) {

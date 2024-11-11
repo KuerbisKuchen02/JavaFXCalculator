@@ -13,6 +13,10 @@ public class BasicLexer extends Lexer {
     @Override
     public Token nextToken() {
         while (c != EOF) {
+            if (c == '-' && (lc == EOF || lc == '+' || lc == '-' || lc == '*' || lc == '/' || lc == '(')) {
+                consume();
+                lc = '$';
+            }
             switch (c) {
                 case ' ','\t','\n','\r' -> WS();
                 default -> {
@@ -54,6 +58,9 @@ public class BasicLexer extends Lexer {
 
     private Token OPERANT() {
         StringBuilder buf = new StringBuilder();
+        if (lc == '$') {
+            buf.append('-');
+        }
         do {
             buf.append(c);
             consume();

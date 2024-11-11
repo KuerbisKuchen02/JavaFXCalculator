@@ -40,6 +40,7 @@ public class MathEditor extends HBox {
 
     public void addText(String text) {
         boolean isSuperscript;
+        String exprText = text;
         try {
             isSuperscript = text.matches("[.0-9]") &&
                     (this.expression.get(this.expression.size() - 1).equals("^")
@@ -47,7 +48,12 @@ public class MathEditor extends HBox {
         } catch (IndexOutOfBoundsException e) {
             isSuperscript = false;
         }
-        this.expression.add(text);
+        try {
+            if (text.equals("(") && this.expression.get(this.expression.size() - 1).matches("[0-9]")) {
+                exprText = "*(";
+            }
+        } catch (IndexOutOfBoundsException ignored) {}
+        this.expression.add(exprText);
         if (text.equals("^")) {
             return;
         }
@@ -86,9 +92,5 @@ public class MathEditor extends HBox {
 
     public boolean isEmpty() {
         return this.expression.isEmpty();
-    }
-
-    public int length() {
-        return this.expression.size();
     }
 }

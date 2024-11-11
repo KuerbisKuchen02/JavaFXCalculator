@@ -92,14 +92,14 @@ public abstract class CalcPane extends VBox {
         if (workingField.isEmpty()) {
             return;
         }
+        historyField.setText(workingField);
         Double result = null;
         try {
             result = calc.eval(workingField.getText());
-        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
             workingField.clear();
             workingField.setText("Error");
         }
-        historyField.setText(workingField);
         if (result != null) {
             if (result.isInfinite()) {
                 workingField.setText("Inf");
@@ -135,7 +135,7 @@ public abstract class CalcPane extends VBox {
 
     protected void editWorkingField(String text) {
         text = Converter.convertUnicodeToAsci(text);
-        if (workingField.getText().equals("0") && !text.matches("[-+*/!%]")) {
+        if (workingField.getText().equals("0") && !text.matches("[+*/!%]")) {
             workingField.setText(text);
         } else {
             workingField.addText(text);
