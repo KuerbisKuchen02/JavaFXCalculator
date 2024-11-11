@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 public abstract class CalcPane extends VBox {
 
@@ -22,8 +23,12 @@ public abstract class CalcPane extends VBox {
     protected MathEditor workingField;
     protected MathEditor historyField;
 
-    public CalcPane(String[][] buttonTexts) {
+    protected BiConsumer<Button, CalcPane> modeSwitcher;
+
+    public CalcPane(String[][] buttonTexts, BiConsumer<Button, CalcPane> modeSwitcher) {
         super();
+
+        this.modeSwitcher = modeSwitcher;
 
         this.historyField = new MathEditor(20, Color.web("#9F9EA0"));
         this.historyField.getStyleClass().add("history-field");
@@ -152,12 +157,14 @@ public abstract class CalcPane extends VBox {
         }
     }
 
+
+
     protected void setButtonListeners(Button button) {
         switch (button.getText()) {
             case "⌫" -> button.setOnAction(event -> handleBackSpace());
             case "C" -> button.setOnAction(event -> clear());
             case "=" -> button.setOnAction(e -> calculate());
-            case "M" -> button.setOnAction(e -> System.out.println("Not Implemented"));
+            case "M" -> button.setOnAction(e -> modeSwitcher.accept(button, this));
             default -> button.setOnAction(e -> {
                 historyField.clear();
                 Button b = (Button) e.getSource();

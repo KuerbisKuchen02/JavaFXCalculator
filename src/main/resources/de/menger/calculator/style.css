@@ -46,3 +46,30 @@
     -fx-background-color: #443F48;
     -fx-font-size: 13px;
 }
+
+.context-menu {
+    -fx-font-size: 12px;
+    -fx-background-color: #25232A;
+    -fx-background-radius: .8em;
+    -fx-background-insets: 0, 1;
+    -fx-border-color: #605C63;
+    -fx-border-width: 1px;
+    -fx-border-radius: .8em;
+    -fx-padding: .3em;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.menu-item:focused {
+    -fx-background-color: transparent;
+}
+
+.menu-item:hover {
+    -fx-background-color: #175AC4;
+    -fx-background-radius: .5em;
+    -fx-border-width: 1px;
+    -fx-border-radius: .5em;
+}
+

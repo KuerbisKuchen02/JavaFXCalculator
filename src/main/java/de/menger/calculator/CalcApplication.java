@@ -1,13 +1,7 @@
 package de.menger.calculator;
 
-import de.menger.calculator.abstractCalc.CalcPane;
-import de.menger.calculator.advancedCalc.AdvancedCalcPane;
-import de.menger.calculator.basicCalc.BasicCalcPane;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.Objects;
 
 public class CalcApplication extends Application {
 
@@ -17,11 +11,8 @@ public class CalcApplication extends Application {
         stage.setTitle("Calculator");
         stage.setResizable(false);
 
-        CalcPane calc = new AdvancedCalcPane();
-        Scene scene = new Scene(calc);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
-        scene.setOnKeyPressed(calc::handleOnKeyPressed);
-        stage.setScene(scene);
+        new WrapperCalcPane(stage);
+
         stage.show();
         stage.requestFocus();
     }
